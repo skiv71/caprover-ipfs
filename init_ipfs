@@ -5,13 +5,6 @@ set -x
 user=ipfs
 repo="$IPFS_PATH"
 
-#find / -name apk -type f -exec dirname "{}" ";"
-echo $PATH
-cat /etc/os-release
-#PATH="${PATH}:/sbin"
-
-#apk add --no-cache su-exec util-linux
-
 if [ `id -u` -eq 0 ]; then
   echo "Changing user to $user"
   # ensure folder is writable
