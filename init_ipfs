@@ -5,7 +5,8 @@ set -x
 user=ipfs
 repo="$IPFS_PATH"
 
-find / -name apk -type f -exec dirname "{}" ";"
+#find / -name apk -type f -exec dirname "{}" ";"
+echo $PATH
 #PATH="${PATH}:/sbin"
 
 #apk add --no-cache su-exec util-linux
