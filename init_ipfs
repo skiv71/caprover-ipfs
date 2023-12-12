@@ -5,6 +5,8 @@ set -x
 user=ipfs
 repo="$IPFS_PATH"
 
+echo $PATH
+
 if [ `id -u` -eq 0 ]; then
   echo "Changing user to $user"
   # ensure folder is writable
