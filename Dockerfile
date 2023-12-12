@@ -8,8 +8,9 @@ RUN apk add --no-cache jq su-exec
 FROM ipfs/go-ipfs:${IPFS_VERSION}
 WORKDIR '/data/ipfs-config'
 COPY --from=packages /usr/bin/jq /usr/bin/jq
-COPY --from=packages /sbin/su-exec /usr/sbin/su-exec
+COPY --from=packages /sbin/su-exec /sbin
 COPY . .
+#/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 ENV LIBP2P_FORCE_PNET 1
 ENV SWARM_PORT 4001
