@@ -8,7 +8,8 @@ RUN apk add --no-cache jq su-exec
 FROM ipfs/go-ipfs:${IPFS_VERSION}
 WORKDIR '/data/ipfs-config'
 COPY --from=packages /usr/bin/jq /usr/bin/jq
-COPY --from=packages /sbin/su-exec /sbin
+COPY --from=packages /sbin/su-exec /sbin/su-exec
+RUN chmod +x /sbin/su-exec 
 COPY . .
 #/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
