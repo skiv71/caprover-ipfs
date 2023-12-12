@@ -5,9 +5,10 @@ set -x
 user=ipfs
 repo="$IPFS_PATH"
 
-PATH="${PATH}:/sbin"
+find / -name apk -type f -exec dirname "{}" ";"
+#PATH="${PATH}:/sbin"
 
-apk add --no-cache su-exec util-linux
+#apk add --no-cache su-exec util-linux
 
 if [ `id -u` -eq 0 ]; then
   echo "Changing user to $user"
