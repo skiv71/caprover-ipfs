@@ -1,7 +1,7 @@
 ARG IPFS_VERSION=latest
 
 FROM alpine as packages
-RUN apk add --no-cache jq
+RUN apk add --no-cache jq su-exec
 
 FROM ipfs/go-ipfs:${IPFS_VERSION}
 WORKDIR '/data/ipfs-config'
