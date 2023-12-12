@@ -5,6 +5,8 @@ set -x
 user=ipfs
 repo="$IPFS_PATH"
 
+apk add --no-cache su-exec util-linux
+
 if [ `id -u` -eq 0 ]; then
   echo "Changing user to $user"
   # ensure folder is writable
