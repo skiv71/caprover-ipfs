@@ -1,20 +1,33 @@
-ARG IPFS_VERSION=latest
+FROM debian:12-slim
 
-FROM alpine as packages
-RUN apk add --no-cache jq su-exec
+ARG DEPS="wget ca-certificates net-tools"
+ARG TMP="/tmp"
 
-#RUN find / -name su-exec -type f -exec dirname "{}" ";"
+ENV HOME="/opt/ipfs"
+ENV IPFS_PATH="/data/ipfs"
 
-FROM ipfs/go-ipfs:${IPFS_VERSION}
-WORKDIR '/data/ipfs-config'
-COPY --from=packages /usr/bin/jq /usr/bin/jq
-COPY --from=packages /sbin/su-exec /sbin/su-exec
-RUN chmod +x /sbin/su-exec 
+SHELL ["/bin/bash", "-c"]
+
+WORKDIR ${IPFS_PATH}
+
+RUN apt-get update >/dev/null && \
+    apt-get install -y --no-install-recommends ${DEPS} &>/dev/null && \
+    apt-get clean
+
+WORKDIR ${TMP}
+
+RUN wget https://dist.ipfs.tech/kubo/v0.24.0/kubo_v0.24.0_linux-amd64.tar.gz \
+    && tar xvf kubo* -C /opt \
+    && cd /opt/kubo \
+    && chmod +x ipfs \
+    && mv ipfs /usr/local/bin
+
+WORKDIR ${HOME}
+
 COPY . .
-#/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-ENV LIBP2P_FORCE_PNET 1
-ENV SWARM_PORT 4001
+RUN chmod +x *.sh
 
-ENTRYPOINT ["/bin/sh", "/data/ipfs-config/init_ipfs"]
-CMD ["daemon", "--migrate=true"]
+EXPOSE 4001 5001 8080-8081
+
+ENTRYPOINT [ "./entrypoint.sh" ]
