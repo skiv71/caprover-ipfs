@@ -13,6 +13,7 @@ config() {
         && ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001 \
         && ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080 \
         && ipfs config Discovery.MDNS.Enabled false --json \
+        && ipfs config Swarm.DisableNatPortMap true --json \
         && ipfs config Swarm.DisableBandwidthMetrics true --json \
         && ipfs config Swarm.ConnMgr.LowWater 50 --json \
         && ipfs config Swarm.ConnMgr.HighWater 1000 --json \
@@ -20,6 +21,7 @@ config() {
 }
 
 init() {
+    echo "INIT"
     ln -s $HOME/swarm.key $IPFS_PATH/swarm.key
     ipfs init \
         && config \
@@ -28,7 +30,6 @@ init() {
 
 # main
 echo path: $IPFS_PATH
-
 [[ -f $IPFS_PATH/swarm.key ]] || init
 
 export LIBP2P_FORCE_PNET=1 && ipfs daemon
