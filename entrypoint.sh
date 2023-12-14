@@ -13,7 +13,6 @@ config() {
         && ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001 \
         && ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080 \
         && ipfs config Discovery.MDNS.Enabled false --json \
-        #&& ipfs config Swarm.DisableNatPortMap true --json \
         && ipfs config Swarm.DisableBandwidthMetrics true --json \
         && ipfs config Swarm.ConnMgr.LowWater 50 --json \
         && ipfs config Swarm.ConnMgr.HighWater 1000 --json \
