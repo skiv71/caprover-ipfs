@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export LIBP2P_FORCE_PNET=1
-
 bootstrap() {
     ipfs bootstrap rm --all \
         && ipfs bootstrap add /dns4/ipfs-bootstrap.request.network/tcp/4001/ipfs/QmaSrBXFBaupfeGMTuigswtKtsthbVaSonurjTV967Fdxx \
@@ -15,7 +13,7 @@ config() {
         && ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001 \
         && ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8080 \
         && ipfs config Discovery.MDNS.Enabled false --json \
-        && ipfs config Swarm.DisableNatPortMap true --json \
+        #&& ipfs config Swarm.DisableNatPortMap true --json \
         && ipfs config Swarm.DisableBandwidthMetrics true --json \
         && ipfs config Swarm.ConnMgr.LowWater 50 --json \
         && ipfs config Swarm.ConnMgr.HighWater 1000 --json \
@@ -30,6 +28,8 @@ init() {
 }
 
 # main
-[[ -f $IPFS_PATH ]] || init
+echo path: $IPFS_PATH
 
-ipfs daemon
+[[ -f $IPFS_PATH/swarm.key ]] || init
+
+export LIBP2P_FORCE_PNET=1 && ipfs daemon
